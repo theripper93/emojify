@@ -1,3 +1,11 @@
 {
-    "MODULE.hello": "hello"
+    "emojify": {
+        "settings": {
+            "autoClose": {
+                "name": "Auto Close",
+                "hint": "Automatically close the emoji picker after selecting an emoji"
+            }
+        },
+        "noTokenSelected": "No tokens selected, please select at least one token to emojify."
+    }
 }

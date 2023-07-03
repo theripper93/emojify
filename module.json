@@ -1,7 +1,7 @@
 {
-    "title": "name",
-    "description": "desc",
-    "id": "modid",
+    "title": "Emojify",
+    "description": "Emojify your chat messages!",
+    "id": "emojify",
     "version": "1.0",
     "authors": [
       {
@@ -57,16 +57,11 @@
     ],
     "packs": [
     ],
-    "url": "https://github.com/theripper93/Levels",
-    "manifest": "https://github.com/theripper93/Levels/releases/latest/download/module.json",
-    "download": "https://github.com/theripper93/Levels/releases/download/0.9.7.3/module.zip",
+    "url": "https://github.com/theripper93/emojify",
+    "manifest": "https://github.com/theripper93/emojify/releases/latest/download/module.json",
+    "download": "https://github.com/theripper93/emojify/releases/download/0.9.7.3/module.zip",
     "relationships": {
       "requires": [
-        {
-          "id": "lib-wrapper",
-          "type": "module",
-          "compatibility": {}
-        }
       ]
     },
     "compatibility": {

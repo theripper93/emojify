@@ -1,1 +1,83 @@
-@import 'globals';
+#emojify-app{
+
+    position: absolute;
+    z-index: 1000000;
+    overflow: hidden;
+    background: #00000070;
+    backdrop-filter: blur(5px);
+    border-radius: 5px;
+    border: 1px solid #0000004d;
+    box-shadow: 0 0 5px black;
+    padding: 0.3rem;
+    max-width: 200px;
+    max-height: 300px;
+    min-width: 200px;
+    min-height: 300px;
+
+    @keyframes expand-in{
+        0%{
+            transform: scale(0);
+        }
+        100%{
+            transform: scale(1);
+        }
+    }
+
+    animation: expand-in 0.2s ease-in-out forwards;
+
+    & header{
+        width: 100%;
+        & .controls-container{
+            width: 100%;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+    }
+
+    & input[type="search"], & span#size{
+        box-shadow: none !important;
+        color: var(--color-text-light-1);
+        border: none;
+    }
+
+    & span#size{
+        font-size: 1.2rem;
+        border-radius: 5px;
+        padding: 0 0.3rem;
+        &:hover{
+            cursor: pointer;
+            background: #ffffff4d;
+        }
+    }
+    
+    & #emoji-list, & #recent-emoji{
+        list-style: none;
+        display: flex;
+        flex-wrap: wrap;
+        padding: 0;
+        margin: 0;
+        font-size: x-large;
+        justify-content: space-between;
+        overflow-y: scroll;
+
+        & li{
+
+            border-radius: 5px;
+            transition: background 0.1s ease-in-out;
+
+            &:hover{
+                cursor: pointer;
+                background: #ffffff4d;
+            }
+        }
+    }
+
+    & #recent-emoji{
+        background: #b668ff94;
+        border-radius: 5px;
+        overflow: hidden;
+        margin: 0.3rem 0;
+        padding: 0.1rem;
+    }
+} 
