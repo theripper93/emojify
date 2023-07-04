@@ -15,6 +15,7 @@ Hooks.on("init", () => {
         open: () => {
             new EmojifyApp().render(true);
         },
+        EmojifyApp,
     };
 
     document.addEventListener("mousemove", (event) => {
@@ -23,4 +24,15 @@ Hooks.on("init", () => {
     });
 
     game.socket.on("module.emojify", EmojifyApp.processSocketData);
+
+    if (game.settings.get(MODULE_ID, "preload")) {
+        EmojifyApp.preload();
+    }
+
+    Hooks.once("ready", () => {
+        if (!game.settings.get(MODULE_ID, "firstTimeMessage")) {
+            ui.notifications.info(game.i18n.localize(`${MODULE_ID}.welcome`), {permanent: true});
+            game.settings.set(MODULE_ID, "firstTimeMessage", true);
+        }
+    });
 });

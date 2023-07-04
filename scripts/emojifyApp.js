@@ -33,13 +33,17 @@ export class EmojifyApp extends Application{
         }
     }
 
+    static async preload() {
+        return this.prototype.getData();
+    }
+
     async getData() {
         if(!emojiDB) {
             emojiDB = await fetchJsonWithTimeout("modules/emojify/scripts/emojisDB.json");
             const Fuse = (await import("./fuse.js")).default;
             const options = {
                 includeScore: true,
-                keys: ["description", "category", "tags"],
+                keys: ["description", "category", "tags", "aliases"],
                 threshold: 0.5,
             };
             fuseSearch = new Fuse(emojiDB, options);

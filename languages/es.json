@@ -1,0 +1,18 @@
+{
+    "emojify": {
+        "noTokenSelected": "No se seleccionaron tokens, seleccione al menos un token para emojificar.",
+        "search": "Buscar...",
+        "settings": {
+            "autoClose": {
+                "hint": "Cerrar automáticamente el selector de emoji después de seleccionar un emoji",
+                "name": "Auto cerrado"
+            },
+            "preload": {
+                "hint": "Precargue la base de datos emoji al inicio, esto cargará aproximadamente 500 kb de datos, si esta opción está deshabilitada, la base de datos se cargará en el primer uso.",
+                "name": "Precarga"
+            }
+        },
+        "toggleEmoji": "Abrir selector de emojis",
+        "welcome": "😂 ❤️ 🙌 😍 🎉 | \nBienvenido a Emojify, presione Shift V para abrir el selector de emoji. \n| \n🔥 😊 🤔 🌟 🥳"
+    }
+}

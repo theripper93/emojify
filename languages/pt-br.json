@@ -1,0 +1,18 @@
+{
+    "emojify": {
+        "noTokenSelected": "Nenhum token selecionado, selecione pelo menos um token para emoticon.",
+        "search": "Procurar...",
+        "settings": {
+            "autoClose": {
+                "hint": "Feche automaticamente o seletor de emojis após selecionar um emoji",
+                "name": "Fechamento Automático"
+            },
+            "preload": {
+                "hint": "Pré-carregue o banco de dados emoji na inicialização, isso carregará aproximadamente 500kb de dados, se esta opção estiver desativada, o banco de dados será carregado no primeiro uso.",
+                "name": "Pré-carregar"
+            }
+        },
+        "toggleEmoji": "Abrir Seletor de Emojis",
+        "welcome": "😂 ❤️ 🙌 😍 🎉 | \nBem-vindo ao Emojify, pressione Shift V para abrir o seletor de emojis. \n| \n🔥 😊 🤔 🌟 🥳"
+    }
+}

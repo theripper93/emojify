@@ -1,6 +1,6 @@
 {
     "title": "Emojify",
-    "description": "Enhance your roleplay with emotes!",
+    "description": "Add emojis to tokens, enhancing visual expression in virtual tabletop sessions.",
     "id": "emojify",
     "version": "1.0",
     "socket": true,
