@@ -21,4 +21,6 @@ Hooks.on("init", () => {
         ui.emojify.mousePosition.x = event.clientX;
         ui.emojify.mousePosition.y = event.clientY;
     });
+
+    game.socket.on("module.emojify", EmojifyApp.processSocketData);
 });

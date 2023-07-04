@@ -25,6 +25,14 @@ export class EmojifyApp extends Application{
         };
     }
 
+    static processSocketData(data) {
+        for (const scrollingText of data) {
+            const token = canvas.tokens.get(scrollingText.tokenId);
+            if(!token?.visible) continue;
+            canvas.interface.createScrollingText(token.center, scrollingText.emoji, scrollingText.scrollingTextData)
+        }
+    }
+
     async getData() {
         if(!emojiDB) {
             emojiDB = await fetchJsonWithTimeout("modules/emojify/scripts/emojisDB.json");
@@ -69,7 +77,7 @@ export class EmojifyApp extends Application{
         //get header height
         const headerHeight = html.querySelector("header").offsetHeight;
         //set max height
-        html.querySelector("#emoji-list").style.maxHeight = `calc( ${height - headerHeight}px - 0.6rem)`;
+        html.querySelector("#emoji-list").style.maxHeight = `calc( ${height - headerHeight}px - 0.8rem)`;
     }
 
     updateRecent() {
@@ -130,7 +138,10 @@ export class EmojifyApp extends Application{
     }
 
     get tokens() {
-        return canvas.tokens.controlled;
+        const controlled = canvas.tokens.controlled;
+        if (!controlled.length && !game.user.isGM) return canvas.tokens.ownedTokens;
+        if (!controlled.length && game.user.isGM && _token) return [_token];
+        return controlled;
     }
 
     get closeOnClick() {
@@ -146,16 +157,20 @@ export class EmojifyApp extends Application{
         const tokens = this.tokens;
         if (!tokens.length) return ui.notifications.warn(game.i18n.localize(`${MODULE_ID}.noTokenSelected`));
         const size = parseFloat(this.element[0].querySelector("span#size").innerHTML);
+        const emojifyData = [];
         for (const token of tokens) {
             const avgSize = (token.w + token.h) / 2 * size;
-            canvas.interface.createScrollingText(token.center, emoji, {fontSize: Math.round(avgSize), distance: 10})
+            emojifyData.push({tokenId: token.id, emoji, scrollingTextData: {fontSize: Math.round(avgSize), distance: 10}});
         }
+        game.socket.emit("module.emojify", emojifyData, {recipients: Array.from(game.users).filter(u=>u.active).map(u=>u.id)});
         const recent = game.settings.get(MODULE_ID, "recent").filter(e => e !== emoji);
         recent.unshift(emoji);
         game.settings.set(MODULE_ID, "recent", recent.slice(0, 10)).then(() => {
-            setTimeout(() => this.updateRecent(), 100);
+            setTimeout(() => {
+                this.updateRecent()
+                if(this.closeOnClick) this.close();
+            }, 100);
         });
-        if(this.closeOnClick) this.close();
     }
 
     async close(...args) {
@@ -163,3 +178,4 @@ export class EmojifyApp extends Application{
         return super.close(...args);
     }
 }
+

@@ -3,6 +3,7 @@
     "description": "Enhance your roleplay with emotes!",
     "id": "emojify",
     "version": "1.0",
+    "socket": true,
     "authors": [
       {
         "name": "theripper93",
