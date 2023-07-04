@@ -6,7 +6,7 @@ export function initConfig() {
     game.keybindings.register(MODULE_ID, "toggleEmoji", {
         name: game.i18n.localize(`${MODULE_ID}.toggleEmoji`),
         editable: [{key: "KeyV", modifiers: [KeyboardManager.MODIFIER_KEYS.SHIFT]}],
-        restricted: true,
+        restricted: false,
         onDown: () => {
             new EmojifyApp().render(true);
         },
