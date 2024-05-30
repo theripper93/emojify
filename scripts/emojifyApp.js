@@ -2,14 +2,12 @@ import { MODULE_ID } from "./main.js";
 
 let emojiDB, fuseSearch;
 
-const sizes = [0.5,1,1.5,2,3,4,5]
+const sizes = [0.5, 1, 1.5, 2, 3, 4, 5];
 
-
-export class EmojifyApp extends Application{
-
-    constructor () {
+export class EmojifyApp extends Application {
+    constructor() {
         super();
-        this._onSearch = debounce(this._onSearch, 100);
+        this._onSearch = foundry.utils.debounce(this._onSearch, 100);
     }
 
     static get defaultOptions() {
@@ -28,8 +26,8 @@ export class EmojifyApp extends Application{
     static processSocketData(data) {
         for (const scrollingText of data) {
             const token = canvas.tokens.get(scrollingText.tokenId);
-            if(!token?.visible) continue;
-            canvas.interface.createScrollingText(token.center, scrollingText.emoji, scrollingText.scrollingTextData)
+            if (!token?.visible) continue;
+            canvas.interface.createScrollingText(token.center, scrollingText.emoji, scrollingText.scrollingTextData);
         }
     }
 
@@ -38,8 +36,8 @@ export class EmojifyApp extends Application{
     }
 
     async getData() {
-        if(!emojiDB) {
-            emojiDB = await fetchJsonWithTimeout("modules/emojify/scripts/emojisDB.json");
+        if (!emojiDB) {
+            emojiDB = await foundry.utils.fetchJsonWithTimeout("modules/emojify/scripts/emojisDB.json");
             const Fuse = (await import("./fuse.js")).default;
             const options = {
                 includeScore: true,
@@ -59,14 +57,13 @@ export class EmojifyApp extends Application{
         super.activateListeners(html);
         html = html[0];
 
-        const {width, height} = this.constructor.defaultOptions;
+        const { width, height } = this.constructor.defaultOptions;
         this.element[0].style.left = `${ui.emojify.mousePosition.x - width / 2}px`;
         this.element[0].style.top = `${ui.emojify.mousePosition.y - height / 2}px`;
 
-
         html.querySelector(`input[type="search"]`).addEventListener("keydown", this._onSearch.bind(this));
 
-        html.querySelectorAll(`#emoji-list li`).forEach(li => { 
+        html.querySelectorAll(`#emoji-list li`).forEach((li) => {
             li.addEventListener("click", this._onEmojiClick.bind(this));
         });
 
@@ -100,7 +97,7 @@ export class EmojifyApp extends Application{
         const currentSize = parseFloat(event.target.innerHTML);
         const isLeftClick = event.button === 0;
         const isRightClick = event.button === 2;
-        if(!isLeftClick && !isRightClick) return;
+        if (!isLeftClick && !isRightClick) return;
         let newSize;
         if (isLeftClick) {
             newSize = sizes[(sizes.indexOf(currentSize) + 1) % sizes.length];
@@ -113,7 +110,7 @@ export class EmojifyApp extends Application{
     }
 
     _onClickAway(event) {
-        if(!event.target.closest("#emojify-app")) {
+        if (!event.target.closest("#emojify-app")) {
             this.close();
         }
     }
@@ -125,11 +122,11 @@ export class EmojifyApp extends Application{
             if (firstResult) return this._Emojify(firstResult.innerHTML);
         }
         const search = event.target.value;
-        let emojis
-        if (!search) emojis = emojiDB.map(e => e.emoji);
-        else {            
+        let emojis;
+        if (!search) emojis = emojiDB.map((e) => e.emoji);
+        else {
             const results = fuseSearch.search(search);
-            emojis = results.map(r => r.item.emoji);
+            emojis = results.map((r) => r.item.emoji);
         }
         const emojiUl = this.element[0].querySelector("#emoji-list");
         emojiUl.innerHTML = "";
@@ -163,16 +160,20 @@ export class EmojifyApp extends Application{
         const size = parseFloat(this.element[0].querySelector("span#size").innerHTML);
         const emojifyData = [];
         for (const token of tokens) {
-            const avgSize = (token.w + token.h) / 2 * size;
-            emojifyData.push({tokenId: token.id, emoji, scrollingTextData: {fontSize: Math.round(avgSize), distance: 10}});
+            const avgSize = ((token.w + token.h) / 2) * size;
+            emojifyData.push({ tokenId: token.id, emoji, scrollingTextData: { fontSize: Math.round(avgSize), distance: 10 } });
         }
-        game.socket.emit("module.emojify", emojifyData, {recipients: Array.from(game.users).filter(u=>u.active).map(u=>u.id)});
-        const recent = game.settings.get(MODULE_ID, "recent").filter(e => e !== emoji);
+        game.socket.emit("module.emojify", emojifyData, {
+            recipients: Array.from(game.users)
+                .filter((u) => u.active)
+                .map((u) => u.id),
+        });
+        const recent = game.settings.get(MODULE_ID, "recent").filter((e) => e !== emoji);
         recent.unshift(emoji);
         game.settings.set(MODULE_ID, "recent", recent.slice(0, 10)).then(() => {
             setTimeout(() => {
-                this.updateRecent()
-                if(this.closeOnClick) this.close();
+                this.updateRecent();
+                if (this.closeOnClick) this.close();
             }, 100);
         });
     }
@@ -182,4 +183,3 @@ export class EmojifyApp extends Application{
         return super.close(...args);
     }
 }
-
