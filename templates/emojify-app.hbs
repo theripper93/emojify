@@ -1,0 +1,18 @@
+<div id="emojify-app">
+    <header>
+    <div class="controls-container">
+        <input type="search" placeholder="{{localize "emojify.search"}}">
+        <span id="size">{{size}}x</span>
+    </div>
+    <ul id="recent-emoji">
+        {{#each recent}}
+            <li data-emoji="{{this}}">{{this}}</li>
+        {{/each}}
+    </ul>
+    </header>
+    <ul id="emoji-list">
+        {{#each emojis}}
+            <li data-emoji="{{emoji}}">{{emoji}}</li>
+        {{/each}}
+    </ul>
+</div>
