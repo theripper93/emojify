@@ -11,6 +11,8 @@ export class EmojifyApp extends HandlebarsApplication {
         super();
         this.search = "";
         this._onSearch = foundry.utils.debounce(this._onSearch, 100);
+        this.boundOnClickAway = this._onClickAway.bind(this);
+        this.boundOnPressKey = this._onPressKey.bind(this);
     }
 
     static get DEFAULT_OPTIONS() {
@@ -63,17 +65,8 @@ export class EmojifyApp extends HandlebarsApplication {
         const html = this.element;
 
         const { width, height } = this.constructor.DEFAULT_OPTIONS.position;
-        // OLD
-        //this.element.style.left = `${canvas.mousePosition.x - width / 2}px`;
-        //this.element.style.top = `${canvas.mousePosition.y - height / 2}px`;
 
-        // TEST: canvas.mousePosition
-        //let widthRatio = canvas.screenDimensions[0] / canvas.dimensions.width;
-        //let heightRatio = canvas.screenDimensions[1] / canvas.dimensions.height;
-        //super.setPosition({ left: canvas.mousePosition.x * widthRatio, top: canvas.mousePosition.y * heightRatio });
-        // TEST: ui.emojify.mousePosition centered
-        //super.setPosition({ left: ui.emojify.mousePosition.x - width / 2, top: ui.emojify.mousePosition.y - height / 2 });
-        super.setPosition({ left: ui.emojify.mousePosition.x, top: ui.emojify.mousePosition.y});
+        this.setPosition({ left: ui.emojify.mousePosition.x - width / 2, top: ui.emojify.mousePosition.y - height / 2 });
 
         html.querySelector(`input[type="search"]`).addEventListener("keydown", this._onSearch.bind(this));
 
@@ -84,8 +77,8 @@ export class EmojifyApp extends HandlebarsApplication {
         html.querySelector("span#size").addEventListener("mouseup", this._onSizeClick.bind(this));
 
         //close when clicking somewhere else
-        document.addEventListener("click", this._onClickAway.bind(this));
-        document.addEventListener("keydown", this._onPressKey.bind(this));
+        document.addEventListener("click", this.boundOnClickAway);
+        html.addEventListener("keydown", this.boundOnPressKey);
         //focus input
         setTimeout(() => html.querySelector(`input[type="search"]`).focus(), 100);
         this.element.scrollTop = 0;
@@ -202,13 +195,7 @@ export class EmojifyApp extends HandlebarsApplication {
     }
 
     _onClose(options) {
-        document.removeEventListener("click", this._onClickAway.bind(this));
-        document.removeEventListener("keydown", this._onPressKey.bind(this));
+        document.removeEventListener("click", this.boundOnClickAway);
         super._onClose(options);
     }
-
-    //async close(...args) {
-    //    document.removeEventListener("click", this._onClickAway.bind(this));
-    //    return super.close(...args);
-    //}
 }
