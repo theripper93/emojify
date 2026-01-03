@@ -11,6 +11,7 @@ def get_git_repo_info():
         # Extract the repository owner and name from the remote URL
         repo_owner, repo_name = remote_url.split('/')[-2:]
         repo_name = repo_name.rstrip('.git')
+        repo_owner = repo_owner.split(':')[-1]
 
         return repo_owner, repo_name
     except subprocess.CalledProcessError:
