@@ -1,6 +1,6 @@
 import {initConfig} from "./config.js";
 import {registerSettings} from "./settings.js";
-import {EmojifyApp} from "./emojifyApp.js";
+import {EmojifyApp} from "./app/emojifyApp.js";
 
 export const MODULE_ID = "emojify";
 
@@ -13,7 +13,7 @@ Hooks.on("init", () => {
             y: 0,
         },
         open: () => {
-            new EmojifyApp().render(true);
+            new EmojifyApp().render({ force: true });
         },
         EmojifyApp,
     };

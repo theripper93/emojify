@@ -2,16 +2,9 @@
   position: absolute;
   z-index: 1000000;
   overflow: hidden;
-  background: rgba(0, 0, 0, 0.4392156863);
   backdrop-filter: blur(5px);
   border-radius: 5px;
-  border: 1px solid rgba(0, 0, 0, 0.3019607843);
-  box-shadow: 0 0 5px black;
   padding: 0.3rem;
-  max-width: 200px;
-  max-height: 300px;
-  min-width: 200px;
-  min-height: 300px;
   animation: expand-in 0.2s ease-in-out forwards;
 }
 @keyframes expand-in {
@@ -33,7 +26,6 @@
 }
 #emojify-app input[type=search], #emojify-app span#size {
   box-shadow: none !important;
-  color: var(--color-text-light-1);
   border: none;
 }
 #emojify-app span#size {
@@ -52,7 +44,6 @@
   padding: 0;
   margin: 0;
   font-size: x-large;
-  justify-content: space-between;
   overflow-y: scroll;
 }
 #emojify-app #emoji-list li, #emojify-app #recent-emoji li {
@@ -69,4 +60,7 @@
   overflow: hidden;
   margin: 0.3rem 0;
   padding: 0.1rem;
+}
+#emojify-app #recent-emoji li {
+  margin: 0;
 }/*# sourceMappingURL=module.css.map */
